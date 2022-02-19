@@ -6,18 +6,23 @@ import openpyxl as xl
 import timm
 from openpyxl.styles import Color, PatternFill
 from tqdm import tqdm
+import argparse 
+
+parser = argparse.ArgumentParser(description='Drawing Excel Pixel Art using Python !!') 
+parser.add_argument('-W', '--width', default=50, type=int, help='set width') 
+parser.add_argument('-H', '--height', default=50, type=int, help='set height') 
+parser.add_argument('--path', default='./sample.jpeg', help= 'input image path') 
+args = parser.parse_args()
 
 # set width, height, image_path
-W = 100
-H = 100
-img_path = './sample.jpeg'
-
-
+W = args.width
+H = args.height
+img_path = args.path
 def rgb_to_hex(arr):
     r, g, b, a = arr
     return  hex(a)[2:].zfill(2) + hex(r)[2:].zfill(2) + hex(g)[2:].zfill(2) + hex(b)[2:].zfill(2)
 
-def img2exl(W, H):
+def img2exl():
     img = Image.open(img_path) # put image path. (file - jpg, png, jpeg ...)
     img = img.resize((W, H))
     img = np.array(img)
@@ -49,3 +54,6 @@ def img2exl(W, H):
             i += 1
 
     wb.save('output.xlsx')
+
+if __name__ == "__main__":
+    img2exl()
